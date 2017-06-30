@@ -44,7 +44,7 @@ namespace NancyApi
             {
                 Authority = Configsettings.AuthUrl(),
                 ValidationMode = ValidationMode.Local, 
-                RequiredScopes = new[] { IdSrv3.ScopeNancyApi }
+                RequiredScopes = new[] { IdSrv3.ScopeFrontendDataApi }
             });
 
             // Later figure out auth config for nancy

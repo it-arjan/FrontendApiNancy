@@ -106,8 +106,8 @@
       <HintPath>..\Packages\Nancy.RouteHelpers.1.0.6\lib\Nancy.RouteHelpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\Packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\Packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\Packages\NLog.4.3.11\lib\net45\NLog.dll</HintPath>
@@ -157,6 +157,7 @@
     <Compile Include="Helpers\Configsettings.cs" />
     <Compile Include="Helpers\IdServ3.cs" />
     <Compile Include="Helpers\SettingsChecker.cs" />
+    <Compile Include="Helpers\WebNotification.cs" />
     <Compile Include="Modules\IpSessionIdModule.cs" />
     <Compile Include="Modules\RequestLogModule.cs" />
     <Compile Include="Modules\PostbackDataModule.cs" />

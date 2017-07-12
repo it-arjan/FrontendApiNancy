@@ -19,6 +19,10 @@ namespace NancyApi.Helpers
         public const string LogLevelKey = "log.level";
         public const string AzureIgnoreCertificateErrorsKey = "azure.ignore.cert.errors";
 
+        public const string SocketPortKey = "websocket.port";
+        public const string SocketSchemeKey = "websocket.scheme";
+        public const string SocketServerHostnameKey = "websocket.server.hostname";
+
 
         public static string AuthUrl()
         {
@@ -37,6 +41,23 @@ namespace NancyApi.Helpers
         {
             return string.Format("{0}://{1}/", Scheme(), Entrypoint());
         }
+        public static string SocketServerUrl()
+        {
+            return string.Format("{0}://{1}:{2}", SocketScheme(), SocketServerHostname(), SocketPort());
+        }
+        public static string SocketServerHostname()
+        {
+            return ConfigurationManager.AppSettings.Get(SocketServerHostnameKey);
+        }
+        private static string SocketPort()
+        {
+            return ConfigurationManager.AppSettings.Get(SocketPortKey);
+        }
+        public static string SocketScheme()
+        {
+            return ConfigurationManager.AppSettings.Get(SocketSchemeKey);
+        }
+
         public static string Entrypoint()
         {
             return ConfigurationManager.AppSettings.Get(EntrypointKey);

@@ -15,7 +15,7 @@ namespace NancyApi.Modules
 
             _db = new DataFactory(MyDbType.EtfDb).Db(); //nancy handles disposal
             Get["/{id}"] = _ => FindIpSessionId(_.id);
-            Get["/exists/{SessionId}"] = _ => SessionIdExists(_.amount);
+            Get["/exists/{SessionId}"] = _ => SessionIdExists(_.SessionId);
             Get["/exists/{SessionId}/{ip}"] =  _ => IpSessionIdExists(_.SessionId, _.ip );
             Delete["/{id}"] = _ =>RemoveIpSessionId(_.id);
             Post["/"] = _ => AddIpSessionId();
@@ -28,7 +28,8 @@ namespace NancyApi.Modules
 
         private bool IpSessionIdExists(string session, string ip)
         {
-            return _db.IpSessionIdExists(ip, session);
+            var result = _db.IpSessionIdExists(session, ip);
+            return result;
         }
         private IpSessionId FindIpSessionId(int id)
         {

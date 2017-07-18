@@ -19,6 +19,7 @@ namespace NancyApi
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             StaticConfiguration.DisableErrorTraces = false;
+            Nancy.Json.JsonSettings.MaxJsonLength = int.MaxValue;
         }
 
         protected override void RequestStartup(TinyIoCContainer requestContainer, IPipelines pipelines, NancyContext context)

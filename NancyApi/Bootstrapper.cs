@@ -28,7 +28,7 @@ namespace NancyApi
             var method = context.Request.Method;
             var contentType = context.Request.Headers["content-type"].FirstOrDefault();
             var msg = string.Empty;
-            if (path.ToLower().EndsWith("requestlog") && method.ToUpper()=="POST" && contentType =="application/json")
+            if (path.ToLower().Contains("/requestlog") && method.ToUpper()=="POST")
             {
                 var json = ReadBody(context.Request.Body);
                 dynamic jsonObj = JObject.Parse(json);

@@ -26,7 +26,8 @@ namespace NancyApi.Helpers
                                                         true,
                                                         tokSrc.Token
                                                         );
-                    tsk.Wait(); tsk.Dispose();
+                    if (!tsk.IsFaulted) tsk.Wait();
+                    tsk.Dispose();
                     tokSrc.Dispose();
                     Close(_wsClient);
                 }
@@ -36,6 +37,7 @@ namespace NancyApi.Helpers
         private static ClientWebSocket Connect(string url)
         {
             var _wsClient = new ClientWebSocket();
+            _wsClient.Options.SetRequestHeader("Sec-WebSocket-Protocol", "TestToken123");
             _logger.Info("Connecting to {0}", url);
 
             // seems not needed

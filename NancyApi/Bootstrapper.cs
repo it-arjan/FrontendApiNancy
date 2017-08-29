@@ -9,6 +9,8 @@ using NancyApi.Helpers;
 using Newtonsoft.Json.Linq;
 using Nancy.IO;
 using System.IO;
+using MyData;
+using NLogWrapper;
 
 namespace NancyApi 
 {
@@ -16,10 +18,13 @@ namespace NancyApi
     {
         //check https://github.com/NancyFx/Nancy/wiki/The-Application-Before,-After-and-OnError-pipelines for a better to do this
 
+        private ILogger _logger = LogManager.CreateLogger(typeof(Bootstrapper), Helpers.Configsettings.LogLevel());
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
+            _logger.Debug("Nancy Api: executing startup");
             StaticConfiguration.DisableErrorTraces = false;
             Nancy.Json.JsonSettings.MaxJsonLength = int.MaxValue;
+            new MyData.DataFactory(MyDbType.EtfDb).DbSetup().InitDB();
         }
 
         protected override void RequestStartup(TinyIoCContainer requestContainer, IPipelines pipelines, NancyContext context)

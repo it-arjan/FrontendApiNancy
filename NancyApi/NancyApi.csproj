@@ -158,7 +158,6 @@
     <Compile Include="Helpers\IdServ3.cs" />
     <Compile Include="Helpers\SettingsChecker.cs" />
     <Compile Include="Helpers\WebNotification.cs" />
-    <Compile Include="Modules\IpSessionIdModule.cs" />
     <Compile Include="Modules\RequestLogModule.cs" />
     <Compile Include="Modules\PostbackDataModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

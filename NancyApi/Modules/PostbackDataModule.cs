@@ -57,7 +57,7 @@ namespace NancyApi.Modules
         private HttpStatusCode AddPostback()
         {
             var x = this.Bind<PostbackData>();
-            _db.Add(x);
+            _db.AddPostback(x);
             _db.Commit();
             return HttpStatusCode.OK;
         }

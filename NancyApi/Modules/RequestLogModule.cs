@@ -40,7 +40,7 @@ namespace NancyApi.Modules
         private HttpStatusCode AddLog()
         {
             var x = this.Bind<RequestLogEntry>();
-            _db.Add(x);
+            _db.AddRequestlog(x);
             _db.Commit();
             return HttpStatusCode.OK;
         }

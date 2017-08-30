@@ -10,11 +10,11 @@ namespace NancyApi.Helpers
     {
         private static ILogger _logger = LogManager.CreateLogger(typeof(WebNotification), Configsettings.LogLevel());
         private static object serializer = new object();
-        public static void Send(string sessionToken, string msg, params object[] msgPars)
+        public static void Send(string socketServerAccessTokenToken, string sessionToken, string msg, params object[] msgPars)
         {
             lock (serializer)
             {
-                var _wsClient = Connect(Configsettings.SocketServerUrl());
+                var _wsClient = Connect(Configsettings.SocketServerUrl(), socketServerAccessTokenToken);
                 if (Connected(_wsClient))
                 {
 
@@ -34,18 +34,12 @@ namespace NancyApi.Helpers
             }
         }
 
-        private static ClientWebSocket Connect(string url)
+        private static ClientWebSocket Connect(string url, string socketServerAccessToken)
         {
             var _wsClient = new ClientWebSocket();
-            _wsClient.Options.SetRequestHeader("Sec-WebSocket-Protocol", "TestToken123");
+            _wsClient.Options.SetRequestHeader("Sec-WebSocket-Protocol", socketServerAccessToken);
             _logger.Info("Connecting to {0}", url);
 
-            // seems not needed
-            //if (Configsettings.Ssl())
-            //{
-            //    _logger.Info("Loading certificate from file");
-            //    _wsClient.Options.ClientCertificates.Add(Security.GetCertificateFromFile());
-            //}
             var tokSrc = new CancellationTokenSource(); 
             //cannot use await within lock
             var task = _wsClient.ConnectAsync(new Uri(url), tokSrc.Token);
@@ -62,7 +56,8 @@ namespace NancyApi.Helpers
             {
                 var tokSrc = new CancellationTokenSource();
                 var tsk = _wsClient.CloseAsync(WebSocketCloseStatus.NormalClosure, "", tokSrc.Token);
-                tsk.Wait(); tsk.Dispose();
+                if (!tsk.IsFaulted) tsk.Wait();
+                tsk.Dispose();
                 tokSrc.Dispose();
             }
             _logger.Debug("ClientWebSocket CLOSED");

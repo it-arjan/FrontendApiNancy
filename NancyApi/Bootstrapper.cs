@@ -44,8 +44,15 @@ namespace NancyApi
                 msg = string.Format("{0} {1}", method, path);
             }
             
-            var sockettoken = context.Request.Headers["X-socketToken"].FirstOrDefault() ?? "required Header not set";
-            WebNotification.Send(sockettoken, msg);
+            var feedId = context.Request.Headers["X-socketFeedId"].FirstOrDefault() ?? "required Header not set";
+            if (feedId.Contains("required Header"))
+                _logger.Error("X-socketFeedId not set");
+
+            var socketServerAccesstoken = context.Request.Headers["X-socketServerAccessToken"].FirstOrDefault() ?? "required Header not set";
+            if (socketServerAccesstoken.Contains("required Header"))
+                _logger.Error("X-socketFeedId not set");
+
+            WebNotification.Send(socketServerAccesstoken, feedId, msg);
         }
 
         private string ReadBody(RequestStream body)

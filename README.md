@@ -2,7 +2,7 @@
 
 This repository holds the data Api. Authenticated using OAUTH against identityserver3. 
 
-This project uses the Shared Data project (Etf implementation of IData)
+ This project uses the Shared Data project (Etf implementation of IData)
 
 To see how data Api fits in the overall system, see https://messagequeuefrontend.azurewebsites.net/systemlayout
 

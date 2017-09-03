@@ -25,6 +25,19 @@ namespace NancyApi
             StaticConfiguration.DisableErrorTraces = false;
             Nancy.Json.JsonSettings.MaxJsonLength = int.MaxValue;
             new MyData.DataFactory(MyDbType.EtfDb).DbSetup().InitDB();
+            CheckHealth();
+        }
+
+        private void CheckHealth()
+        {
+            _logger.Info("Checking config settings..");
+            _logger.Info("Running under: Environment.UserName= {0}, Environment.UserDomainName= {1}", Environment.UserName, Environment.UserDomainName);
+            SettingsChecker.CheckPresenceAllPlainSettings(typeof(Configsettings));
+
+            _logger.Info("all requried config settings seem present..");
+            _logger.Info("Url = {0}", Configsettings.HostUrl());
+            _logger.Info("Auth server Url= {0}", Configsettings.AuthUrl());
+            _logger.Info("..done with config checks.");
         }
 
         protected override void RequestStartup(TinyIoCContainer requestContainer, IPipelines pipelines, NancyContext context)

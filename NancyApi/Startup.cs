@@ -14,30 +14,16 @@ namespace NancyApi
     public class Startup
     {
         private ILogger _logger = LogManager.CreateLogger(typeof(Startup), Configsettings.LogLevel());
-        private void CheckHealth()
-        {
-            _logger.Info("Checking config settings..");
-            _logger.Info("Running under: Environment.UserName= {0}, Environment.UserDomainName= {1}", Environment.UserName, Environment.UserDomainName);
-            SettingsChecker.CheckPresenceAllPlainSettings(typeof(Configsettings));
-
-            _logger.Info("all requried config settings seem present..");
-            _logger.Info("Url = {0}", Configsettings.HostUrl());
-            _logger.Info("Auth server Url= {0}", Configsettings.AuthUrl());
-            _logger.Info("..done with config checks.");
-        }
-
 
         public void Configuration(IAppBuilder app)
         {
             if (Configsettings.OnAzure())
             {
+                // Azure has no way of trusting a self signed certificate, 
+                // so only option left is to disable the certificate check
                 ServicePointManager.ServerCertificateValidationCallback +=
                             (sender, cert, chain, sslPolicyErrors) => true;
             }
-
-            _logger.Info("startup starting");
-
-            CheckHealth();
 
             // silicon client authorization
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
@@ -47,10 +33,8 @@ namespace NancyApi
                 RequiredScopes = new[] { IdSrv3.ScopeFrontendDataApi }
             });
 
-            // Later figure out auth config for nancy
             app.UseNancy();
 
-            _logger.Info("startup executed");
         }
 
 
